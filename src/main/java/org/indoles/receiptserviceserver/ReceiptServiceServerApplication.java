@@ -8,6 +8,7 @@ public class ReceiptServiceServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ReceiptServiceServerApplication.class, args);
+		System.out.println("Hello World");
 	}
 
 }
