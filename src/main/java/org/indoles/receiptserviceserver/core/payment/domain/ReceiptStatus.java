@@ -1,6 +1,10 @@
-package org.indoles.receiptserviceserver.entity.enums;
+package org.indoles.receiptserviceserver.core.payment.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum ReceiptStatus {
+
     PURCHASED("구매완료"),
     REFUND("환불완료");
 
