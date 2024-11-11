@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface AuctionJpaRepository extends JpaRepository<AuctionEntity, Long> {
+public interface AuctionJpaRepository extends JpaRepository<AuctionEntity, Long>, AuctionQueryDslRepository {
 
     Optional<AuctionEntity> findById(long id);
 
@@ -16,3 +16,4 @@ public interface AuctionJpaRepository extends JpaRepository<AuctionEntity, Long>
     @Query("select a from AuctionEntity a where a.id = :id")
     Optional<AuctionEntity> findByIdForUpdate(Long id);
 }
+
