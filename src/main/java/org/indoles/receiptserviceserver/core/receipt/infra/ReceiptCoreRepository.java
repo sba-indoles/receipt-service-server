@@ -3,7 +3,6 @@ package org.indoles.receiptserviceserver.core.receipt.infra;
 
 import lombok.RequiredArgsConstructor;
 import org.indoles.receiptserviceserver.core.receipt.domain.Receipt;
-import org.indoles.receiptserviceserver.core.receipt.domain.ReceiptRepository;
 import org.indoles.receiptserviceserver.core.receipt.dto.BuyerReceiptSearchCondition;
 import org.indoles.receiptserviceserver.core.receipt.dto.SellerReceiptSearchCondition;
 import org.indoles.receiptserviceserver.core.receipt.entity.ReceiptEntity;
