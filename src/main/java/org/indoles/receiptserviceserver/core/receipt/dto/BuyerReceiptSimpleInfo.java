@@ -1,7 +1,7 @@
 package org.indoles.receiptserviceserver.core.receipt.dto;
 
 import lombok.Builder;
-import org.indoles.receiptserviceserver.core.receipt.domain.ReceiptStatus;
+import org.indoles.receiptserviceserver.core.receipt.domain.enums.ReceiptStatus;
 
 import java.util.UUID;
 

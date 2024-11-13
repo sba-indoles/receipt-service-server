@@ -2,7 +2,7 @@ package org.indoles.receiptserviceserver.core.receipt.dto;
 
 import java.util.UUID;
 import lombok.Builder;
-import org.indoles.receiptserviceserver.core.receipt.domain.ReceiptStatus;
+import org.indoles.receiptserviceserver.core.receipt.domain.enums.ReceiptStatus;
 
 /**
  * 판매자가 자신의 경매와 관련있는 거래 내역 목록을 조회 시 사용하는  DTO

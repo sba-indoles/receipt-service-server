@@ -1,8 +1,8 @@
-package org.indoles.receiptserviceserver.core.member.dto;
+package org.indoles.receiptserviceserver.core.receipt.dto;
 
 
 
-import org.indoles.receiptserviceserver.core.member.domain.Role;
+import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
 import org.indoles.receiptserviceserver.global.exception.BadRequestException;
 import org.indoles.receiptserviceserver.global.exception.ErrorCode;
 

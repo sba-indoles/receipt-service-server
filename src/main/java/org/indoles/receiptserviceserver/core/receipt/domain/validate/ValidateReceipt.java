@@ -1,6 +1,6 @@
 package org.indoles.receiptserviceserver.core.receipt.domain.validate;
 
-import org.indoles.receiptserviceserver.core.receipt.domain.ReceiptStatus;
+import org.indoles.receiptserviceserver.core.receipt.domain.enums.ReceiptStatus;
 import org.indoles.receiptserviceserver.global.exception.BadRequestException;
 import org.indoles.receiptserviceserver.global.exception.ErrorCode;
 

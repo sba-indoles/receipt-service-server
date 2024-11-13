@@ -1,4 +1,7 @@
-package org.indoles.receiptserviceserver.core.member.controller;
+package org.indoles.receiptserviceserver.core.receipt.controller.interfaces;
+
+
+import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +10,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SellerOnly {
+public @interface Roles {
+
+    Role[] value();
 }

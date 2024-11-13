@@ -3,9 +3,8 @@ package org.indoles.receiptserviceserver.core.receipt.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.indoles.receiptserviceserver.core.receipt.domain.enums.ReceiptStatus;
 import org.indoles.receiptserviceserver.core.receipt.domain.validate.ValidateReceipt;
-import org.indoles.receiptserviceserver.global.exception.BadRequestException;
-import org.indoles.receiptserviceserver.global.exception.ErrorCode;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
