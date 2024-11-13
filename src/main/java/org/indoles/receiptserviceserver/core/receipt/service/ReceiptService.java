@@ -2,7 +2,6 @@ package org.indoles.receiptserviceserver.core.receipt.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.indoles.receiptserviceserver.core.member.dto.SignInInfo;
 import org.indoles.receiptserviceserver.core.receipt.domain.Receipt;
 import org.indoles.receiptserviceserver.core.receipt.dto.*;
 import org.indoles.receiptserviceserver.core.receipt.infra.ReceiptRepository;
