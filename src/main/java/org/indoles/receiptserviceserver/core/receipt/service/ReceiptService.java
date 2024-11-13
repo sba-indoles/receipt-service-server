@@ -1,20 +1,10 @@
-package org.indoles.receiptserviceserver.core.payment.service;
+package org.indoles.receiptserviceserver.core.receipt.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.indoles.receiptserviceserver.core.member.dto.SignInInfo;
-import org.indoles.receiptserviceserver.core.payment.domain.Receipt;
-import org.indoles.receiptserviceserver.core.payment.domain.ReceiptRepository;
-import org.indoles.receiptserviceserver.core.payment.dto.*;
-import org.indoles.receiptserviceserver.global.exception.AuthorizationException;
-import org.indoles.receiptserviceserver.global.exception.ErrorCode;
-import org.indoles.receiptserviceserver.global.exception.NotFoundException;
-import org.indoles.receiptserviceserver.global.util.Mapper;
+import org.indoles.receiptserviceserver.core.receipt.domain.ReceiptRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)

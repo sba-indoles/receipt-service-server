@@ -1,7 +1,7 @@
-package org.indoles.receiptserviceserver.core.payment.dto;
+package org.indoles.receiptserviceserver.core.receipt.dto;
 
 import lombok.Builder;
-import org.indoles.receiptserviceserver.core.payment.domain.ReceiptStatus;
+import org.indoles.receiptserviceserver.core.receipt.domain.ReceiptStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

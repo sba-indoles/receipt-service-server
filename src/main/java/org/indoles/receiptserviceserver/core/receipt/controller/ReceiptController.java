@@ -1,20 +1,9 @@
-package org.indoles.receiptserviceserver.core.payment.controller;
+package org.indoles.receiptserviceserver.core.receipt.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.indoles.receiptserviceserver.core.member.controller.BuyerOnly;
-import org.indoles.receiptserviceserver.core.member.controller.Login;
-import org.indoles.receiptserviceserver.core.member.controller.Roles;
-import org.indoles.receiptserviceserver.core.member.controller.SellerOnly;
-import org.indoles.receiptserviceserver.core.member.domain.Role;
-import org.indoles.receiptserviceserver.core.member.dto.SignInInfo;
-import org.indoles.receiptserviceserver.core.payment.dto.*;
-import org.indoles.receiptserviceserver.core.payment.service.ReceiptService;
-import org.springframework.http.ResponseEntity;
+import org.indoles.receiptserviceserver.core.receipt.service.ReceiptService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/receipts")

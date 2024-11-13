@@ -1,4 +1,4 @@
-package org.indoles.receiptserviceserver.core.payment.controller;
+package org.indoles.receiptserviceserver.core.receipt.controller;
 
 
 import lombok.RequiredArgsConstructor;
@@ -6,8 +6,8 @@ import org.indoles.receiptserviceserver.core.member.controller.Login;
 import org.indoles.receiptserviceserver.core.member.controller.Roles;
 import org.indoles.receiptserviceserver.core.member.domain.Role;
 import org.indoles.receiptserviceserver.core.member.dto.SignInInfo;
-import org.indoles.receiptserviceserver.core.payment.dto.BuyerChargePointCommand;
-import org.indoles.receiptserviceserver.core.payment.service.PaymentService;
+import org.indoles.receiptserviceserver.core.receipt.dto.BuyerChargePointCommand;
+import org.indoles.receiptserviceserver.core.receipt.service.PaymentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

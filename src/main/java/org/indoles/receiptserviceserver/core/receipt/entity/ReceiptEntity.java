@@ -1,4 +1,4 @@
-package org.indoles.receiptserviceserver.core.payment.entity;
+package org.indoles.receiptserviceserver.core.receipt.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -12,7 +12,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.indoles.receiptserviceserver.core.payment.domain.ReceiptStatus;
+import org.indoles.receiptserviceserver.core.receipt.domain.ReceiptStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

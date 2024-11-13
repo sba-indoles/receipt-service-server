@@ -1,9 +1,9 @@
-package org.indoles.receiptserviceserver.core.payment.domain;
+package org.indoles.receiptserviceserver.core.receipt.domain;
 
 
 
-import org.indoles.receiptserviceserver.core.payment.dto.BuyerReceiptSearchCondition;
-import org.indoles.receiptserviceserver.core.payment.dto.SellerReceiptSearchCondition;
+import org.indoles.receiptserviceserver.core.receipt.dto.BuyerReceiptSearchCondition;
+import org.indoles.receiptserviceserver.core.receipt.dto.SellerReceiptSearchCondition;
 
 import java.util.List;
 import java.util.Optional;

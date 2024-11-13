@@ -1,4 +1,4 @@
-package org.indoles.receiptserviceserver.core.payment.dto;
+package org.indoles.receiptserviceserver.core.receipt.dto;
 
 
 import org.indoles.receiptserviceserver.global.exception.BadRequestException;

@@ -1,4 +1,4 @@
-package org.indoles.receiptserviceserver.core.payment.domain;
+package org.indoles.receiptserviceserver.core.receipt.domain;
 
 import lombok.Getter;
 

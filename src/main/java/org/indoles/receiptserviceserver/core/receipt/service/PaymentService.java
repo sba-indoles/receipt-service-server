@@ -1,4 +1,4 @@
-package org.indoles.receiptserviceserver.core.payment.service;
+package org.indoles.receiptserviceserver.core.receipt.service;
 
 
 import lombok.RequiredArgsConstructor;
