@@ -2,7 +2,7 @@ package org.indoles.receiptserviceserver.core.receipt.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.indoles.receiptserviceserver.core.receipt.domain.ReceiptRepository;
+import org.indoles.receiptserviceserver.core.receipt.infra.ReceiptRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
