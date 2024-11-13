@@ -1,14 +1,11 @@
-package org.indoles.receiptserviceserver.core.payment.infra;
+package org.indoles.receiptserviceserver.core.receipt.infra;
 
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.indoles.receiptserviceserver.core.payment.domain.Receipt;
-import org.indoles.receiptserviceserver.core.payment.domain.ReceiptRepository;
-import org.indoles.receiptserviceserver.core.payment.dto.BuyerReceiptSearchCondition;
-import org.indoles.receiptserviceserver.core.payment.dto.SellerReceiptSearchCondition;
-import org.indoles.receiptserviceserver.core.payment.entity.QReceiptEntity;
-import org.indoles.receiptserviceserver.core.payment.entity.ReceiptEntity;
+import org.indoles.receiptserviceserver.core.receipt.domain.Receipt;
+import org.indoles.receiptserviceserver.core.receipt.dto.BuyerReceiptSearchCondition;
+import org.indoles.receiptserviceserver.core.receipt.dto.SellerReceiptSearchCondition;
+import org.indoles.receiptserviceserver.core.receipt.entity.ReceiptEntity;
 import org.indoles.receiptserviceserver.global.util.Mapper;
 import org.springframework.stereotype.Repository;
 

@@ -9,11 +9,11 @@ import org.indoles.receiptserviceserver.core.auction.entity.AuctionEntity;
 import org.indoles.receiptserviceserver.core.member.domain.Member;
 import org.indoles.receiptserviceserver.core.member.domain.Point;
 import org.indoles.receiptserviceserver.core.member.entity.MemberEntity;
-import org.indoles.receiptserviceserver.core.payment.domain.Receipt;
-import org.indoles.receiptserviceserver.core.payment.dto.BuyerReceiptSimpleInfo;
-import org.indoles.receiptserviceserver.core.payment.dto.ReceiptInfo;
-import org.indoles.receiptserviceserver.core.payment.dto.SellerReceiptSimpleInfo;
-import org.indoles.receiptserviceserver.core.payment.entity.ReceiptEntity;
+import org.indoles.receiptserviceserver.core.receipt.domain.Receipt;
+import org.indoles.receiptserviceserver.core.receipt.dto.BuyerReceiptSimpleInfo;
+import org.indoles.receiptserviceserver.core.receipt.dto.ReceiptInfo;
+import org.indoles.receiptserviceserver.core.receipt.dto.SellerReceiptSimpleInfo;
+import org.indoles.receiptserviceserver.core.receipt.entity.ReceiptEntity;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Mapper {

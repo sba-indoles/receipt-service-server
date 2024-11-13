@@ -1,8 +1,9 @@
-package org.indoles.receiptserviceserver.core.payment.domain;
+package org.indoles.receiptserviceserver.core.receipt.domain;
 
 
 import lombok.Builder;
 import lombok.Getter;
+import org.indoles.receiptserviceserver.core.receipt.domain.validate.ValidateReceipt;
 import org.indoles.receiptserviceserver.global.exception.BadRequestException;
 import org.indoles.receiptserviceserver.global.exception.ErrorCode;
 
@@ -47,13 +48,13 @@ public class Receipt {
         this.buyerId = buyerId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+
+        ValidateReceipt.validateUpdateAt(this.createdAt, this.updatedAt);
     }
 
     public void markAsRefund() {
-        if (receiptStatus.equals(ReceiptStatus.REFUND)) {
-            throw new BadRequestException("이미 환불된 입찰 내역입니다.", ErrorCode.R002);
-        }
-        receiptStatus = ReceiptStatus.REFUND;
+        ValidateReceipt.validateRefund(this.receiptStatus);
+        this.receiptStatus = ReceiptStatus.REFUND;
     }
 
     public boolean isOwnedBy(long requestUserId) {

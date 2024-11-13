@@ -1,7 +1,7 @@
-package org.indoles.receiptserviceserver.core.payment.dto;
+package org.indoles.receiptserviceserver.core.receipt.dto;
 
 import lombok.Builder;
-import org.indoles.receiptserviceserver.core.payment.domain.ReceiptStatus;
+import org.indoles.receiptserviceserver.core.receipt.domain.ReceiptStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,12 +10,12 @@ import java.util.UUID;
 public record ReceiptInfo(
         UUID receiptId,
         String productName,
-        long price,
-        long quantity,
+        Long price,
+        Long quantity,
         ReceiptStatus receiptStatus,
-        long auctionId,
-        long sellerId,
-        long buyerId,
+        Long auctionId,
+        Long sellerId,
+        Long buyerId,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {

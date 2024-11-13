@@ -1,7 +1,7 @@
-package org.indoles.receiptserviceserver.core.payment.infra;
+package org.indoles.receiptserviceserver.core.receipt.infra;
 
 import jakarta.persistence.LockModeType;
-import org.indoles.receiptserviceserver.core.payment.entity.ReceiptEntity;
+import org.indoles.receiptserviceserver.core.receipt.entity.ReceiptEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;

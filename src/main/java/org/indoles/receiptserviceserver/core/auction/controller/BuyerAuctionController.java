@@ -9,11 +9,8 @@ import org.indoles.receiptserviceserver.core.auction.dto.BuyerAuctionInfo;
 import org.indoles.receiptserviceserver.core.auction.dto.BuyerAuctionSimpleInfo;
 import org.indoles.receiptserviceserver.core.auction.service.AuctionService;
 import org.indoles.receiptserviceserver.core.member.controller.BuyerOnly;
-import org.indoles.receiptserviceserver.core.member.controller.Login;
 import org.indoles.receiptserviceserver.core.member.dto.SignInInfo;
-import org.indoles.receiptserviceserver.core.payment.service.PaymentService;
 import org.indoles.receiptserviceserver.global.dto.AuctionPurchaseRequestMessage;
-import org.indoles.receiptserviceserver.global.dto.AuctionRefundRequestMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
