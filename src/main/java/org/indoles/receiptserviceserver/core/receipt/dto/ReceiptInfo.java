@@ -10,12 +10,12 @@ import java.util.UUID;
 public record ReceiptInfo(
         UUID receiptId,
         String productName,
-        long price,
-        long quantity,
+        Long price,
+        Long quantity,
         ReceiptStatus receiptStatus,
-        long auctionId,
-        long sellerId,
-        long buyerId,
+        Long auctionId,
+        Long sellerId,
+        Long buyerId,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {

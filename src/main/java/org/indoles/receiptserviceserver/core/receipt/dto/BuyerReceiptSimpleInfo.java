@@ -6,7 +6,7 @@ import org.indoles.receiptserviceserver.core.receipt.domain.ReceiptStatus;
 import java.util.UUID;
 
 /**
- * 구매자가 거래 내역 목록을 조회할 때, 노출되는 각 내역의 데이터를 나타내는 dto 입니다.
+ * 구매자가 거래 내역 목록을 조회할 때, 노출되는 각 내역의 데이터를 나타내는 DTO
  *
  * @param id          거내 내역 식별자입니다.
  * @param auctionId   구매한 경매의 식별자입니다.
@@ -18,10 +18,10 @@ import java.util.UUID;
 @Builder
 public record BuyerReceiptSimpleInfo(
         UUID id,
-        long auctionId,
+        Long auctionId,
         ReceiptStatus type,
         String productName,
-        long quantity,
-        long price
+        Long quantity,
+        Long price
 ) {
 }
