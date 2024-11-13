@@ -1,4 +1,4 @@
-package org.indoles.receiptserviceserver.core.receipt.domain;
+package org.indoles.receiptserviceserver.core.receipt.domain.enums;
 
 import lombok.Getter;
 

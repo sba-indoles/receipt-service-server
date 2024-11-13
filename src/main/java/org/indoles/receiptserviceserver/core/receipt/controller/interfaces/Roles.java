@@ -1,6 +1,5 @@
 package org.indoles.receiptserviceserver.core.receipt.controller.interfaces;
 
-import org.indoles.receiptserviceserver.core.member.domain.Role;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

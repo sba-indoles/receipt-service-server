@@ -3,7 +3,6 @@ package org.indoles.receiptserviceserver.core.receipt.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.indoles.receiptserviceserver.core.member.controller.BuyerOnly;
-import org.indoles.receiptserviceserver.core.member.controller.Login;
 import org.indoles.receiptserviceserver.core.member.controller.Roles;
 import org.indoles.receiptserviceserver.core.member.controller.SellerOnly;
 import org.indoles.receiptserviceserver.core.member.domain.Role;

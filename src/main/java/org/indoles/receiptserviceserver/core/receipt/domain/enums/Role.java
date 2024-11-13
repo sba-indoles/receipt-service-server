@@ -1,4 +1,5 @@
-package org.indoles.receiptserviceserver.core.member.domain;
+package org.indoles.receiptserviceserver.core.receipt.domain.enums;
+
 
 
 import org.indoles.receiptserviceserver.global.exception.BadRequestException;

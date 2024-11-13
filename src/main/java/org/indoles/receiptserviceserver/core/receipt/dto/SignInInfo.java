@@ -1,4 +1,4 @@
-package org.indoles.receiptserviceserver.core.member.dto;
+package org.indoles.receiptserviceserver.core.receipt.dto;
 
 
 
