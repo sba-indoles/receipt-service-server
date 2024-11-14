@@ -2,10 +2,11 @@ package org.indoles.receiptserviceserver.core.fixture;
 
 import static org.indoles.receiptserviceserver.core.receipt.domain.enums.Role.*;
 
-class MemberFixture {
+public class MemberFixture {
 
-    public static MemberTransferObjectFixture BuyerBuilder() {
+    public static MemberTransferObjectFixture buyerBuilder() {
         return MemberTransferObjectFixture.builder()
+                .id(1L)
                 .signInId("buyerId")
                 .password("password00")
                 .role(BUYER)
@@ -15,6 +16,7 @@ class MemberFixture {
 
     public static MemberTransferObjectFixture sellerBuilder() {
         return MemberTransferObjectFixture.builder()
+                .id(2L)
                 .signInId("sellerId")
                 .password("password00")
                 .role(SELLER)
