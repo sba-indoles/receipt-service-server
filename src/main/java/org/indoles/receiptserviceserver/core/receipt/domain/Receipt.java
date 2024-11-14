@@ -47,8 +47,6 @@ public class Receipt {
         this.buyerId = buyerId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-
-        ValidateReceipt.validateUpdateAt(this.createdAt, this.updatedAt);
     }
 
     public void markAsRefund() {
