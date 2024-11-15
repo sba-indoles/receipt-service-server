@@ -1,7 +1,5 @@
 package org.indoles.receiptserviceserver.core.receipt.infra;
 
-
-
 import org.indoles.receiptserviceserver.core.receipt.domain.Receipt;
 import org.indoles.receiptserviceserver.core.receipt.dto.BuyerReceiptSearchCondition;
 import org.indoles.receiptserviceserver.core.receipt.dto.SellerReceiptSearchCondition;
