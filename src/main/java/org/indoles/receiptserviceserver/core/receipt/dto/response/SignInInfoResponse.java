@@ -1,4 +1,4 @@
-package org.indoles.receiptserviceserver.core.receipt.dto;
+package org.indoles.receiptserviceserver.core.receipt.dto.response;
 
 
 
@@ -8,10 +8,10 @@ import org.indoles.receiptserviceserver.global.exception.ErrorCode;
 
 import java.util.Objects;
 
-public record SignInInfo(Long id, Role role) {
+public record SignInInfoResponse(Long id, Role role) {
     private static final String ERROR_NULL_VALUE = "%s는 Null일 수 없습니다.";
 
-    public SignInInfo {
+    public SignInInfoResponse {
         validateNotNull(id, "로그인한 사용자의 식별자");
         validateNotNull(role, "로그인한 사용자의 역할");
     }

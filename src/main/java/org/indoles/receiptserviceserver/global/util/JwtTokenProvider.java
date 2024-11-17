@@ -3,7 +3,7 @@ package org.indoles.receiptserviceserver.global.util;
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
-import org.indoles.receiptserviceserver.core.receipt.dto.SignInInfo;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.SignInInfoResponse;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,14 +21,14 @@ public class JwtTokenProvider {
         log.debug("Encoded secret key: {}", secretKey);
     }
 
-    public SignInInfo getSignInInfoFromToken(String token) {
+    public SignInInfoResponse getSignInInfoFromToken(String token) {
         try {
             Claims claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
             Long userId = Long.valueOf(claims.getSubject());
             String roleStr = claims.get("role", String.class);
             Role role = Role.valueOf(roleStr);
             log.debug("Extracted userId: {}, role: {}", userId, roleStr);
-            return new SignInInfo(userId, role);
+            return new SignInInfoResponse(userId, role);
         } catch (Exception e) {
             log.error("Error extracting SignInInfo from token: {}", e.getMessage());
             throw e;

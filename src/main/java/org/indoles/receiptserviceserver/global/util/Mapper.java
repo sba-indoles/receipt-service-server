@@ -4,16 +4,16 @@ package org.indoles.receiptserviceserver.global.util;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.indoles.receiptserviceserver.core.receipt.domain.Receipt;
-import org.indoles.receiptserviceserver.core.receipt.dto.BuyerReceiptSimpleInfo;
-import org.indoles.receiptserviceserver.core.receipt.dto.ReceiptInfo;
-import org.indoles.receiptserviceserver.core.receipt.dto.SellerReceiptSimpleInfo;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.BuyerReceiptSimpleInfoResponse;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.ReceiptInfoResponse;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.SellerReceiptSimpleInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.entity.ReceiptEntity;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Mapper {
 
-    public static ReceiptInfo convertToReceiptInfo(Receipt receipt) {
-        return ReceiptInfo.builder()
+    public static ReceiptInfoResponse convertToReceiptInfo(Receipt receipt) {
+        return ReceiptInfoResponse.builder()
                 .receiptId(receipt.getId())
                 .productName(receipt.getProductName())
                 .price(receipt.getPrice())
@@ -27,8 +27,8 @@ public final class Mapper {
                 .build();
     }
 
-    public static BuyerReceiptSimpleInfo convertToBuyerReceiptSimpleInfo(Receipt history) {
-        return BuyerReceiptSimpleInfo.builder()
+    public static BuyerReceiptSimpleInfoResponse convertToBuyerReceiptSimpleInfo(Receipt history) {
+        return BuyerReceiptSimpleInfoResponse.builder()
                 .id(history.getId())
                 .auctionId(history.getAuctionId())
                 .type(history.getReceiptStatus())
@@ -38,8 +38,8 @@ public final class Mapper {
                 .build();
     }
 
-    public static SellerReceiptSimpleInfo convertToSellerReceiptSimpleInfo(Receipt history) {
-        return SellerReceiptSimpleInfo.builder()
+    public static SellerReceiptSimpleInfoResponse convertToSellerReceiptSimpleInfo(Receipt history) {
+        return SellerReceiptSimpleInfoResponse.builder()
                 .id(history.getId())
                 .auctionId(history.getAuctionId())
                 .type(history.getReceiptStatus())

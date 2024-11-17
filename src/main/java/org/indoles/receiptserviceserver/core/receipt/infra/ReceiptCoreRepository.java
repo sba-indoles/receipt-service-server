@@ -3,8 +3,8 @@ package org.indoles.receiptserviceserver.core.receipt.infra;
 
 import lombok.RequiredArgsConstructor;
 import org.indoles.receiptserviceserver.core.receipt.domain.Receipt;
-import org.indoles.receiptserviceserver.core.receipt.dto.BuyerReceiptSearchCondition;
-import org.indoles.receiptserviceserver.core.receipt.dto.SellerReceiptSearchCondition;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.BuyerReceiptSearchConditionRequest;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSearchConditionRequest;
 import org.indoles.receiptserviceserver.core.receipt.entity.ReceiptEntity;
 import org.indoles.receiptserviceserver.global.util.Mapper;
 import org.springframework.stereotype.Repository;
@@ -33,14 +33,14 @@ public class ReceiptCoreRepository implements ReceiptRepository {
     }
 
     @Override
-    public List<Receipt> findAllByBuyerId(Long buyerId, BuyerReceiptSearchCondition condition) {
+    public List<Receipt> findAllByBuyerId(Long buyerId, BuyerReceiptSearchConditionRequest condition) {
         return receiptJpaRepository.findAllByBuyerId(buyerId, condition).stream()
                 .map(Mapper::convertToReceipt)
                 .toList();
     }
 
     @Override
-    public List<Receipt> findAllBySellerId(Long sellerId, SellerReceiptSearchCondition condition) {
+    public List<Receipt> findAllBySellerId(Long sellerId, SellerReceiptSearchConditionRequest condition) {
         return receiptJpaRepository.findAllBySellerId(sellerId, condition).stream()
                 .map(Mapper::convertToReceipt)
                 .toList();

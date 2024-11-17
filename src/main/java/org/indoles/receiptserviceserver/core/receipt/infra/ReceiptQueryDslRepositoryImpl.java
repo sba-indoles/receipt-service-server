@@ -3,8 +3,8 @@ package org.indoles.receiptserviceserver.core.receipt.infra;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.indoles.receiptserviceserver.core.receipt.dto.BuyerReceiptSearchCondition;
-import org.indoles.receiptserviceserver.core.receipt.dto.SellerReceiptSearchCondition;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.BuyerReceiptSearchConditionRequest;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSearchConditionRequest;
 import org.indoles.receiptserviceserver.core.receipt.entity.QReceiptEntity;
 import org.indoles.receiptserviceserver.core.receipt.entity.ReceiptEntity;
 
@@ -16,7 +16,7 @@ public class ReceiptQueryDslRepositoryImpl implements ReceiptQueryDslRepository 
     private final JPAQueryFactory factory;
 
     @Override
-    public List<ReceiptEntity> findAllByBuyerId(Long buyerId, BuyerReceiptSearchCondition condition) {
+    public List<ReceiptEntity> findAllByBuyerId(Long buyerId, BuyerReceiptSearchConditionRequest condition) {
         QReceiptEntity receipt = QReceiptEntity.receiptEntity;
 
         return factory
@@ -30,7 +30,7 @@ public class ReceiptQueryDslRepositoryImpl implements ReceiptQueryDslRepository 
     }
 
     @Override
-    public List<ReceiptEntity> findAllBySellerId(Long sellerId, SellerReceiptSearchCondition condition) {
+    public List<ReceiptEntity> findAllBySellerId(Long sellerId, SellerReceiptSearchConditionRequest condition) {
         QReceiptEntity receipt = QReceiptEntity.receiptEntity;
 
         return factory

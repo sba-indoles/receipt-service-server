@@ -10,4 +10,9 @@ public class ValidateReceiptSearchCondition {
             throw new BadRequestException("size는 " + from + " 이상 " + to + " 이하의 값이어야 합니다.", ErrorCode.G001);
         }
     }
+    public static void validateOffset(int offset) {
+        if (offset < 0) {
+            throw new BadRequestException("offset은 0 이상의 값이어야 합니다.", ErrorCode.G002);
+        }
+    }
 }

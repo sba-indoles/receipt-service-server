@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ReceiptMapperTest {
 
     @Test
-    @DisplayName("거래 내역 영속성 엔티티를 도메인 엔티티로 변환하면 정보가 동일하다")
+    @DisplayName("거래 내역 엔티티를 도메인으로 변환하면 정보가 동일하다")
     void transferReceiptEntityToReceipt() {
         // given
         ReceiptEntity entity = ReceiptEntity.builder()
@@ -51,7 +51,7 @@ class ReceiptMapperTest {
     }
 
     @Test
-    @DisplayName("거래 내역 도메인 엔티티를 영속성 엔티티로 변환하면 정보가 동일하다")
+    @DisplayName("거래 내역 도메인을 엔티티로 변환하면 정보가 동일하다")
     void transferReceiptToReceiptEntity() {
         // given
         Receipt domainEntity = Receipt.builder()

@@ -8,10 +8,14 @@ import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Buyer
 import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Roles;
 import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.SellerOnly;
 import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
-import org.indoles.receiptserviceserver.core.receipt.dto.*;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.BuyerReceiptSearchConditionRequest;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSearchConditionRequest;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.BuyerReceiptSimpleInfoResponse;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.ReceiptInfoResponse;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.SellerReceiptSimpleInfoResponse;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.SignInInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.service.ReceiptService;
 import org.indoles.receiptserviceserver.global.exception.AuthorizationException;
-import org.indoles.receiptserviceserver.global.exception.ErrorResponse;
 import org.indoles.receiptserviceserver.global.exception.NotFoundException;
 import org.indoles.receiptserviceserver.global.util.JwtTokenProvider;
 import org.springframework.http.HttpStatus;
@@ -41,7 +45,7 @@ public class ReceiptController {
      */
     @BuyerOnly
     @GetMapping("/buyer")
-    public ResponseEntity<List<BuyerReceiptSimpleInfo>> getReceipts(
+    public ResponseEntity<List<BuyerReceiptSimpleInfoResponse>> getReceipts(
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam(name = "offset") int offset,
             @RequestParam(name = "size") int size
@@ -51,9 +55,9 @@ public class ReceiptController {
 
         if (jwtTokenProvider.validateToken(token)) {
             try {
-                SignInInfo signInInfo = jwtTokenProvider.getSignInInfoFromToken(token);
-                BuyerReceiptSearchCondition condition = new BuyerReceiptSearchCondition(offset, size);
-                List<BuyerReceiptSimpleInfo> infos = receiptService.getBuyerReceiptSimpleInfos(signInInfo, condition);
+                SignInInfoResponse signInInfoResponse = jwtTokenProvider.getSignInInfoFromToken(token);
+                BuyerReceiptSearchConditionRequest condition = new BuyerReceiptSearchConditionRequest(offset, size);
+                List<BuyerReceiptSimpleInfoResponse> infos = receiptService.getBuyerReceiptSimpleInfos(signInInfoResponse, condition);
                 return ResponseEntity.ok(infos);
             } catch (Exception e) {
                 log.error("Error during chargePoint: {}", e.getMessage());
@@ -75,7 +79,7 @@ public class ReceiptController {
      */
     @SellerOnly
     @GetMapping("/seller")
-    public ResponseEntity<List<SellerReceiptSimpleInfo>> getSellerReceipts(
+    public ResponseEntity<List<SellerReceiptSimpleInfoResponse>> getSellerReceipts(
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam(name = "offset") int offset,
             @RequestParam(name = "size") int size
@@ -85,9 +89,9 @@ public class ReceiptController {
 
         if (jwtTokenProvider.validateToken(token)) {
             try {
-                SignInInfo signInInfo = jwtTokenProvider.getSignInInfoFromToken(token);
-                SellerReceiptSearchCondition condition = new SellerReceiptSearchCondition(offset, size);
-                List<SellerReceiptSimpleInfo> infos = receiptService.getSellerReceiptSimpleInfos(signInInfo, condition);
+                SignInInfoResponse signInInfoResponse = jwtTokenProvider.getSignInInfoFromToken(token);
+                SellerReceiptSearchConditionRequest condition = new SellerReceiptSearchConditionRequest(offset, size);
+                List<SellerReceiptSimpleInfoResponse> infos = receiptService.getSellerReceiptSimpleInfos(signInInfoResponse, condition);
                 return ResponseEntity.ok(infos);
             } catch (Exception e) {
                 log.error("Error during chargePoint: {}", e.getMessage());
@@ -108,7 +112,7 @@ public class ReceiptController {
      */
     @Roles({Role.BUYER, Role.SELLER})
     @GetMapping("/{receiptId}")
-    public ResponseEntity<ReceiptInfo> getReceipt(
+    public ResponseEntity<ReceiptInfoResponse> getReceipt(
             @RequestHeader("Authorization") String authorizationHeader,
             @PathVariable("receiptId") UUID receiptId
     ) {
@@ -116,9 +120,9 @@ public class ReceiptController {
 
         if (jwtTokenProvider.validateToken(token)) {
             try {
-                SignInInfo signInInfo = jwtTokenProvider.getSignInInfoFromToken(token);
-                ReceiptInfo receiptInfo = receiptService.getReceiptInfo(signInInfo, receiptId);
-                return ResponseEntity.ok(receiptInfo);
+                SignInInfoResponse signInInfoResponse = jwtTokenProvider.getSignInInfoFromToken(token);
+                ReceiptInfoResponse receiptInfoResponse = receiptService.getReceiptInfo(signInInfoResponse, receiptId);
+                return ResponseEntity.ok(receiptInfoResponse);
             } catch (NotFoundException e) {
                 log.warn("Not Found: {}", e.getMessage());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -134,4 +138,33 @@ public class ReceiptController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+//    // 거래 내역 목록 조회 API
+//    @GetMapping("/transactions/{userId}")
+//    public ResponseEntity<List<TransactionInfoResponse>> getTransactionsByUserId(
+//            @PathVariable("userId") Long userId,
+//            @RequestParam("offset") int offset,
+//            @RequestParam("size") int size) {
+//        List<TransactionInfoResponse> transactions = receiptService.getTransactionsByUserId(userId, offset, size);
+//        return ResponseEntity.ok(transactions);
+//    }
+//
+//    // 거래 상세 조회 API
+//    @GetMapping("/transactions/{receiptId}")
+//    public ResponseEntity<ReceiptInfoResponse> getReceiptById(@PathVariable("receiptId") UUID receiptId) {
+//        ReceiptInfoResponse receiptInfo = receiptService.getReceiptById(receiptId);
+//        return ResponseEntity.ok(receiptInfo);
+//    }
+//
+//    /**
+//     * 거래 내역 생성 API
+//     *
+//     * @param request
+//     * @return
+//     */
+//    @PostMapping("/transactions")
+//    public ResponseEntity<Void> createTransaction(@RequestBody TransactionRequest request) {
+//        receiptService.createTransaction(request); // 거래 내역 저장 로직
+//        return ResponseEntity.ok().build();
+//    }
 }
