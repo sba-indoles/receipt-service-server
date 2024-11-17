@@ -36,7 +36,10 @@ public class ReceiptService {
      * @return
      */
 
-    public ReceiptInfoResponse getReceiptInfo(SignInInfoResponse memberInfo, UUID receiptId) {
+    public ReceiptInfoResponse getReceiptInfo(
+            SignInInfoResponse memberInfo,
+            UUID receiptId
+    ) {
         Receipt receipt = receiptRepository.findById(receiptId)
                 .orElseThrow(() -> new NotFoundException("거래 내역을 찾을 수 없습니다. id=" + receiptId, ErrorCode.R000));
 
@@ -55,8 +58,10 @@ public class ReceiptService {
      * @return
      */
 
-    public List<BuyerReceiptSimpleInfoResponse> getBuyerReceiptSimpleInfos(SignInInfoResponse buyerInfo,
-                                                                           BuyerReceiptSearchConditionRequest condition) {
+    public List<BuyerReceiptSimpleInfoResponse> getBuyerReceiptSimpleInfos(
+            SignInInfoResponse buyerInfo,
+            BuyerReceiptSearchConditionRequest condition
+    ) {
         List<Receipt> receipts = receiptRepository.findAllByBuyerId(buyerInfo.id(), condition);
         return receipts.stream()
                 .map(Mapper::convertToBuyerReceiptSimpleInfo)
@@ -71,11 +76,13 @@ public class ReceiptService {
      * @return
      */
 
-    public List<SellerReceiptSimpleInfoResponse> getSellerReceiptSimpleInfos(SignInInfoResponse sellerInfo,
-                                                                             SellerReceiptSearchConditionRequest condition) {
-        return null;
-    }
-
-    public void createTransaction(TransactionRequest request) {
+    public List<SellerReceiptSimpleInfoResponse> getSellerReceiptSimpleInfos(
+            SignInInfoResponse sellerInfo,
+            SellerReceiptSearchConditionRequest condition
+    ) {
+        List<Receipt> receipts = receiptRepository.findAllBySellerId(sellerInfo.id(), condition);
+        return receipts.stream()
+                .map(Mapper::convertToSellerReceiptSimpleInfo)
+                .toList();
     }
 }
