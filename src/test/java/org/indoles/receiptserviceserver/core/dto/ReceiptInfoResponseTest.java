@@ -1,6 +1,5 @@
-package org.indoles.receiptserviceserver.core.infra;
+package org.indoles.receiptserviceserver.core.dto;
 
-import org.indoles.receiptserviceserver.core.fixture.MemberFixture;
 import org.indoles.receiptserviceserver.core.fixture.MemberTransferObjectFixture;
 import org.indoles.receiptserviceserver.core.receipt.domain.enums.ReceiptStatus;
 import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
