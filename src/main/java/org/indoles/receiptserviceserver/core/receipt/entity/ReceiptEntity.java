@@ -6,12 +6,11 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.indoles.receiptserviceserver.core.receipt.domain.enums.ReceiptStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,25 +22,46 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReceiptEntity {
+
     @Id
     private UUID id;
+
     private String productName;
+
     private long price;
+
     private long quantity;
+
     @Enumerated(value = EnumType.STRING)
     private ReceiptStatus receiptStatus;
+
     private long auctionId;
+
+    @NonNull
     private Long sellerId;
+
+    @NonNull
     private Long buyerId;
+
     @CreatedDate
     private LocalDateTime createdAt;
+
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
     @Builder
-    private ReceiptEntity(UUID id, String productName, long price, long quantity, ReceiptStatus receiptStatus,
-                          long auctionId,
-                          Long sellerId, Long buyerId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private ReceiptEntity(
+            UUID id,
+            String productName,
+            long price,
+            long quantity,
+            ReceiptStatus receiptStatus,
+            long auctionId,
+            Long sellerId,
+            Long buyerId,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ) {
         this.id = id;
         this.productName = productName;
         this.price = price;
