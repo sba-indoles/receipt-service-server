@@ -67,9 +67,9 @@ public class ReceiptService {
 
     public List<SellerReceiptSimpleInfo> getSellerReceiptSimpleInfos(SignInInfo sellerInfo,
                                                                      SellerReceiptSearchCondition condition) {
-        List<Receipt> receipts = receiptRepository.findAllBySellerId(sellerInfo.id(), condition);
-        return receipts.stream()
-                .map(Mapper::convertToSellerReceiptSimpleInfo)
-                .toList();
+        return null;
+    }
+
+    public void createTransaction(TransactionRequest request) {
     }
 }

@@ -25,7 +25,7 @@ class ReceiptCoreRepositoryTest extends RepositoryTest {
 
         @Test
         @DisplayName("거래내역의 id로 거래내역을 조회한다")
-        void findReceiptByid_Success() {
+        void findReceiptById_Success() {
             // given
             Receipt receipt = Receipt.builder()
                     .id(UUID.randomUUID())
@@ -59,7 +59,7 @@ class ReceiptCoreRepositoryTest extends RepositoryTest {
 
         @Test
         @DisplayName("거래내역 id에 해당하는 거래내역이 없으면 empty를 반환한다")
-        void findReceiptByidEmpty() {
+        void findReceiptById_Empty() {
             // given
             UUID notExistId = UUID.randomUUID();
 
