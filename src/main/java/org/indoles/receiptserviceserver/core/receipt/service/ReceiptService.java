@@ -3,7 +3,13 @@ package org.indoles.receiptserviceserver.core.receipt.service;
 
 import lombok.RequiredArgsConstructor;
 import org.indoles.receiptserviceserver.core.receipt.domain.Receipt;
-import org.indoles.receiptserviceserver.core.receipt.dto.*;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.BuyerReceiptSearchConditionRequest;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSearchConditionRequest;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.TransactionRequest;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.BuyerReceiptSimpleInfoResponse;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.ReceiptInfoResponse;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.SellerReceiptSimpleInfoResponse;
+import org.indoles.receiptserviceserver.core.receipt.dto.response.SignInInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.infra.ReceiptRepository;
 import org.indoles.receiptserviceserver.global.exception.AuthorizationException;
 import org.indoles.receiptserviceserver.global.exception.ErrorCode;
@@ -30,7 +36,7 @@ public class ReceiptService {
      * @return
      */
 
-    public ReceiptInfo getReceiptInfo(SignInInfo memberInfo, UUID receiptId) {
+    public ReceiptInfoResponse getReceiptInfo(SignInInfoResponse memberInfo, UUID receiptId) {
         Receipt receipt = receiptRepository.findById(receiptId)
                 .orElseThrow(() -> new NotFoundException("거래 내역을 찾을 수 없습니다. id=" + receiptId, ErrorCode.R000));
 
@@ -49,8 +55,8 @@ public class ReceiptService {
      * @return
      */
 
-    public List<BuyerReceiptSimpleInfo> getBuyerReceiptSimpleInfos(SignInInfo buyerInfo,
-                                                                   BuyerReceiptSearchCondition condition) {
+    public List<BuyerReceiptSimpleInfoResponse> getBuyerReceiptSimpleInfos(SignInInfoResponse buyerInfo,
+                                                                           BuyerReceiptSearchConditionRequest condition) {
         List<Receipt> receipts = receiptRepository.findAllByBuyerId(buyerInfo.id(), condition);
         return receipts.stream()
                 .map(Mapper::convertToBuyerReceiptSimpleInfo)
@@ -65,8 +71,8 @@ public class ReceiptService {
      * @return
      */
 
-    public List<SellerReceiptSimpleInfo> getSellerReceiptSimpleInfos(SignInInfo sellerInfo,
-                                                                     SellerReceiptSearchCondition condition) {
+    public List<SellerReceiptSimpleInfoResponse> getSellerReceiptSimpleInfos(SignInInfoResponse sellerInfo,
+                                                                             SellerReceiptSearchConditionRequest condition) {
         return null;
     }
 

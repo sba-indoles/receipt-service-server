@@ -1,6 +1,7 @@
-package org.indoles.receiptserviceserver.core.receipt.dto;
+package org.indoles.receiptserviceserver.core.receipt.dto.request;
 
 
+import static org.indoles.receiptserviceserver.core.receipt.dto.validate.ValidateReceiptSearchCondition.validateOffset;
 import static org.indoles.receiptserviceserver.core.receipt.dto.validate.ValidateReceiptSearchCondition.validateSizeBetween;
 
 /**
@@ -8,12 +9,13 @@ import static org.indoles.receiptserviceserver.core.receipt.dto.validate.Validat
  *
  * @param size 조회할 거래 내역의 개수 (default: 10) (Min: 1, Max: 100)
  */
-public record BuyerReceiptSearchCondition(
+public record BuyerReceiptSearchConditionRequest(
         int offset,
         int size
 ) {
 
-    public BuyerReceiptSearchCondition {
-        validateSizeBetween(1, 100, size);
+    public BuyerReceiptSearchConditionRequest {
+        validateSizeBetween(0, 100, size);
+        validateOffset(offset);
     }
 }

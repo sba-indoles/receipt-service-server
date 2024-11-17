@@ -1,4 +1,4 @@
-package org.indoles.receiptserviceserver.core.receipt.dto;
+package org.indoles.receiptserviceserver.core.receipt.dto.response;
 
 import java.util.UUID;
 import lombok.Builder;
@@ -15,7 +15,7 @@ import org.indoles.receiptserviceserver.core.receipt.domain.enums.ReceiptStatus;
  * @param quantity    거래 수량
  */
 @Builder
-public record SellerReceiptSimpleInfo(
+public record SellerReceiptSimpleInfoResponse(
         UUID id,
         Long auctionId,
         ReceiptStatus type,

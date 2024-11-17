@@ -2,14 +2,12 @@ package org.indoles.receiptserviceserver.core.infra;
 
 import org.indoles.receiptserviceserver.core.context.RepositoryTest;
 import org.indoles.receiptserviceserver.core.receipt.domain.enums.ReceiptStatus;
-import org.indoles.receiptserviceserver.core.receipt.dto.BuyerReceiptSearchCondition;
-import org.indoles.receiptserviceserver.core.receipt.dto.SellerReceiptSearchCondition;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.BuyerReceiptSearchConditionRequest;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSearchConditionRequest;
 import org.indoles.receiptserviceserver.core.receipt.entity.ReceiptEntity;
-import org.indoles.receiptserviceserver.core.receipt.infra.ReceiptJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +28,7 @@ class ReceiptQueryDslRepositoryTest extends RepositoryTest {
             Long buyerId = 1L;
             int size = 100;
             int offset = 0;
-            var condition = new BuyerReceiptSearchCondition(offset, size);
+            var condition = new BuyerReceiptSearchConditionRequest(offset, size);
 
             for (int i = 0; i < size + 1; i++) {
                 receiptJpaRepository.save(ReceiptEntity.builder()
@@ -63,7 +61,7 @@ class ReceiptQueryDslRepositoryTest extends RepositoryTest {
         Long otherBuyerId = 2L;
         int size = 100;
         int offset = 10;
-        var condition = new BuyerReceiptSearchCondition(size, offset);
+        var condition = new BuyerReceiptSearchConditionRequest(size, offset);
 
         receiptJpaRepository.save(ReceiptEntity.builder()
                 .id(UUID.randomUUID())
@@ -109,7 +107,7 @@ class ReceiptQueryDslRepositoryTest extends RepositoryTest {
             Long sellerId = 1L;
             int size = 100;
             int offset = 0;
-            var condition = new SellerReceiptSearchCondition(offset, size);
+            var condition = new SellerReceiptSearchConditionRequest(offset, size);
 
             for (int i = 0; i < size + 1; i++) {
                 receiptJpaRepository.save(ReceiptEntity.builder()
@@ -141,7 +139,7 @@ class ReceiptQueryDslRepositoryTest extends RepositoryTest {
             Long otherSellerId = 2L;
             int size = 100;
             int offset = 0;
-            var condition = new SellerReceiptSearchCondition(offset, size);
+            var condition = new SellerReceiptSearchConditionRequest(offset, size);
 
             receiptJpaRepository.save(ReceiptEntity.builder()
                     .id(UUID.randomUUID())
