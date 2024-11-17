@@ -53,6 +53,5 @@ class ReceiptTest {
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("이미 환불된 입찰 내역입니다.")
                 .satisfies(exception -> assertThat(exception).hasFieldOrPropertyWithValue("errorCode", ErrorCode.R002));
-
     }
 }

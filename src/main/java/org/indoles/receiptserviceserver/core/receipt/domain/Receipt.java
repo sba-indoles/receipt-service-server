@@ -9,6 +9,8 @@ import org.indoles.receiptserviceserver.core.receipt.domain.validate.ValidateRec
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static org.indoles.receiptserviceserver.core.receipt.domain.validate.ValidateReceipt.*;
+
 @Getter
 public class Receipt {
 
@@ -23,8 +25,6 @@ public class Receipt {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static final String ERROR_VARIATION_UPDATE_AT = "생성 시간보다 수정 시간이 더 작을 수 없습니다. 생성시간: %s, 수정시간: %s";
-
     @Builder
     public Receipt(
             final UUID id,
@@ -36,7 +36,8 @@ public class Receipt {
             final long sellerId,
             final long buyerId,
             final LocalDateTime createdAt,
-            final LocalDateTime updatedAt) {
+            final LocalDateTime updatedAt
+    ) {
         this.id = id;
         this.productName = productName;
         this.price = price;
@@ -50,7 +51,7 @@ public class Receipt {
     }
 
     public void markAsRefund() {
-        ValidateReceipt.validateRefund(this.receiptStatus);
+        validateRefund(this.receiptStatus);
         this.receiptStatus = ReceiptStatus.REFUND;
     }
 
