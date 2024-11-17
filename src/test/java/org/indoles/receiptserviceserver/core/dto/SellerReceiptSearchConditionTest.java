@@ -35,7 +35,7 @@ class SellerReceiptSearchConditionTest {
     @ParameterizedTest
     @ValueSource(ints = {-1, 101})
     @DisplayName("판매자가 거래 목록을 조회할 때 size가 1미만이거나 100초과인 경우 예외가 발생한다.")
-    void sellerReceiptSearch_Fail(int size) {
+    void sellerReceiptSearch_SizeInvalid_ThrowsException(int size) {
 
         assertThatThrownBy(() -> new SellerReceiptSearchConditionRequest(0, size))
                 .isInstanceOf(BadRequestException.class)
@@ -45,7 +45,7 @@ class SellerReceiptSearchConditionTest {
     @ParameterizedTest
     @ValueSource(ints = {-1, -10})
     @DisplayName("판매자가 거래 목록을 조회할 때 offset이 0미만인 경우 예외가 발생한다.")
-    void sellerReceiptSearch_OffsetFail(int offset) {
+    void sellerReceiptSearch_OffsetInvalid_ThrowsException(int offset) {
 
         assertThatThrownBy(() -> new SellerReceiptSearchConditionRequest(offset, 10))
                 .isInstanceOf(BadRequestException.class)
