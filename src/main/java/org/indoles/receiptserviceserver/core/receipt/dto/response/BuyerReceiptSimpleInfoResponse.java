@@ -18,10 +18,10 @@ import java.util.UUID;
 @Builder
 public record BuyerReceiptSimpleInfoResponse(
         UUID id,
-        Long auctionId,
+        long auctionId,
         ReceiptStatus type,
         String productName,
-        Long quantity,
-        Long price
+        long quantity,
+        long price
 ) {
 }

@@ -20,7 +20,7 @@ public record SellerReceiptSimpleInfoResponse(
         Long auctionId,
         ReceiptStatus type,
         String productName,
-        Long price,
-        Long quantity
+        long price,
+        long quantity
 ) {
 }
