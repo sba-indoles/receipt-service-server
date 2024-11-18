@@ -10,7 +10,7 @@ import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSe
 import org.indoles.receiptserviceserver.core.receipt.dto.response.BuyerReceiptSimpleInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.dto.response.ReceiptInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.dto.response.SellerReceiptSimpleInfoResponse;
-import org.indoles.receiptserviceserver.core.receipt.dto.response.SignInInfoResponse;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.SignInfoRequest;
 import org.indoles.receiptserviceserver.global.exception.AuthorizationException;
 import org.indoles.receiptserviceserver.global.exception.ErrorCode;
 import org.indoles.receiptserviceserver.global.exception.NotFoundException;
@@ -54,7 +54,7 @@ class ReceiptServiceTest extends ServiceTest {
 
             // when
             List<BuyerReceiptSimpleInfoResponse> buyerReceiptSimpleInfoResponses = receiptService.getBuyerReceiptSimpleInfos(
-                    new SignInInfoResponse(buyer.getId(), BUYER),
+                    new SignInfoRequest(buyer.getId(), BUYER),
                     new BuyerReceiptSearchConditionRequest(0, 5)
             );
 
@@ -84,7 +84,7 @@ class ReceiptServiceTest extends ServiceTest {
 
             // when
             List<SellerReceiptSimpleInfoResponse> sellerReceiptSimpleInfos = receiptService.getSellerReceiptSimpleInfos(
-                    new SignInInfoResponse(seller.getId(), SELLER),
+                    new SignInfoRequest(seller.getId(), SELLER),
                     new SellerReceiptSearchConditionRequest(0, 5)
             );
 
@@ -133,7 +133,7 @@ class ReceiptServiceTest extends ServiceTest {
 
             // when
             ReceiptInfoResponse receiptInfo = receiptService.getReceiptInfo(
-                    new SignInInfoResponse(seller.getId(), SELLER), savedReceipt.getId());
+                    new SignInfoRequest(seller.getId(), SELLER), savedReceipt.getId());
 
             // then
             assertAll(
@@ -159,7 +159,7 @@ class ReceiptServiceTest extends ServiceTest {
         // expect
         assertThatThrownBy(
                 () -> receiptService.getReceiptInfo(
-                        new SignInInfoResponse(member.getId(), BUYER), receiptId
+                        new SignInfoRequest(member.getId(), BUYER), receiptId
                 )
         ).isInstanceOf(NotFoundException.class);
     }
@@ -171,7 +171,7 @@ class ReceiptServiceTest extends ServiceTest {
         MemberTransferObjectFixture seller = MemberFixture.sellerBuilder();
         MemberTransferObjectFixture buyer = MemberFixture.buyerBuilder();
 
-        SignInInfoResponse nonOwner = new SignInInfoResponse(3L, BUYER);
+        SignInfoRequest nonOwner = new SignInfoRequest(3L, BUYER);
 
         Receipt receipt = Receipt.builder()
                 .id(UUID.randomUUID())
