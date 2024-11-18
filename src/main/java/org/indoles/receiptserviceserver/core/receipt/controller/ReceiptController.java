@@ -30,8 +30,6 @@ import java.util.UUID;
 public class ReceiptController {
 
     private final ReceiptService receiptService;
-    private final JwtTokenProvider jwtTokenProvider;
-
 
     /**
      * 거래 내역 조회 API(구매자 전용)
