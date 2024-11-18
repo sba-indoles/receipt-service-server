@@ -4,10 +4,10 @@ package org.indoles.receiptserviceserver.core.receipt.controller;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.BuyerOnly;
+import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Buyer;
 import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Login;
 import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Roles;
-import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.SellerOnly;
+import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Seller;
 import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.BuyerReceiptSearchConditionRequest;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSearchConditionRequest;
@@ -16,7 +16,6 @@ import org.indoles.receiptserviceserver.core.receipt.dto.response.ReceiptInfoRes
 import org.indoles.receiptserviceserver.core.receipt.dto.response.SellerReceiptSimpleInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.SignInfoRequest;
 import org.indoles.receiptserviceserver.core.receipt.service.ReceiptService;
-import org.indoles.receiptserviceserver.global.util.JwtTokenProvider;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +38,7 @@ public class ReceiptController {
      * @param size
      * @return
      */
-    @BuyerOnly
+    @Buyer
     @GetMapping("/buyer")
     public ResponseEntity<List<BuyerReceiptSimpleInfoResponse>> getReceipts(
             @Login SignInfoRequest signInfoRequest,
@@ -60,7 +59,7 @@ public class ReceiptController {
      * @param size
      * @return
      */
-    @SellerOnly
+    @Seller
     @GetMapping("/seller")
     public ResponseEntity<List<SellerReceiptSimpleInfoResponse>> getSellerReceipts(
             @Login SignInfoRequest signInfoRequest,

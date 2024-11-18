@@ -3,8 +3,8 @@ package org.indoles.receiptserviceserver.global.util;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.BuyerOnly;
-import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.SellerOnly;
+import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Buyer;
+import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Seller;
 import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.SignInfoRequest;
 import org.indoles.receiptserviceserver.global.exception.AuthorizationException;
@@ -32,7 +32,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
         String token = extractToken(request);
         if (token != null && jwtTokenProvider.validateToken(token)) {
             SignInfoRequest signInfoRequest = jwtTokenProvider.getSignInInfoFromToken(token);
-            authenticationContext.setPrincipal(signInfoRequest); // 사용자 정보 설정
+            authenticationContext.setPrincipal(signInfoRequest);
 
             authorize(handler, signInfoRequest);
         } else {
@@ -54,11 +54,11 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
     private void authorize(Object handler, SignInfoRequest signInfoRequest) {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
 
-        if (handlerMethod.hasMethodAnnotation(BuyerOnly.class) && !signInfoRequest.isType(Role.BUYER)) {
+        if (handlerMethod.hasMethodAnnotation(Buyer.class) && !signInfoRequest.isType(Role.BUYER)) {
             throw new AuthorizationException("구매자만 요청할 수 있는 경로(API) 입니다.", ErrorCode.AU02);
         }
 
-        if (handlerMethod.hasMethodAnnotation(SellerOnly.class) && !signInfoRequest.isType(Role.SELLER)) {
+        if (handlerMethod.hasMethodAnnotation(Seller.class) && !signInfoRequest.isType(Role.SELLER)) {
             throw new AuthorizationException("판매자만 요청할 수 있는 경로(API) 입니다.", ErrorCode.AU01);
         }
     }
