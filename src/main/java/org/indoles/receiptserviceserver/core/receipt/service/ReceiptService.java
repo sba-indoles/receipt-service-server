@@ -5,11 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.indoles.receiptserviceserver.core.receipt.domain.Receipt;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.BuyerReceiptSearchConditionRequest;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSearchConditionRequest;
-import org.indoles.receiptserviceserver.core.receipt.dto.request.TransactionRequest;
 import org.indoles.receiptserviceserver.core.receipt.dto.response.BuyerReceiptSimpleInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.dto.response.ReceiptInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.dto.response.SellerReceiptSimpleInfoResponse;
-import org.indoles.receiptserviceserver.core.receipt.dto.response.SignInInfoResponse;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.SignInfoRequest;
 import org.indoles.receiptserviceserver.core.receipt.infra.ReceiptRepository;
 import org.indoles.receiptserviceserver.global.exception.AuthorizationException;
 import org.indoles.receiptserviceserver.global.exception.ErrorCode;
@@ -37,7 +36,7 @@ public class ReceiptService {
      */
 
     public ReceiptInfoResponse getReceiptInfo(
-            SignInInfoResponse memberInfo,
+            SignInfoRequest memberInfo,
             UUID receiptId
     ) {
         Receipt receipt = receiptRepository.findById(receiptId)
@@ -59,7 +58,7 @@ public class ReceiptService {
      */
 
     public List<BuyerReceiptSimpleInfoResponse> getBuyerReceiptSimpleInfos(
-            SignInInfoResponse buyerInfo,
+            SignInfoRequest buyerInfo,
             BuyerReceiptSearchConditionRequest condition
     ) {
         List<Receipt> receipts = receiptRepository.findAllByBuyerId(buyerInfo.id(), condition);
@@ -77,7 +76,7 @@ public class ReceiptService {
      */
 
     public List<SellerReceiptSimpleInfoResponse> getSellerReceiptSimpleInfos(
-            SignInInfoResponse sellerInfo,
+            SignInfoRequest sellerInfo,
             SellerReceiptSearchConditionRequest condition
     ) {
         List<Receipt> receipts = receiptRepository.findAllBySellerId(sellerInfo.id(), condition);
