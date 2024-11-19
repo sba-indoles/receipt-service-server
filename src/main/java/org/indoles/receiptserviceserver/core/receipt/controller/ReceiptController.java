@@ -103,12 +103,15 @@ public class ReceiptController {
         return ResponseEntity.ok().build();
     }
 
-
-//
-//    // 거래 상세 조회 API
-//    @GetMapping("/transactions/{receiptId}")
-//    public ResponseEntity<ReceiptInfoResponse> getReceiptById(@PathVariable("receiptId") UUID receiptId) {
-//        ReceiptInfoResponse receiptInfo = receiptService.getReceiptById(receiptId);
-//        return ResponseEntity.ok(receiptInfo);
-//    }
+    /**
+     * 경매 환불 시 거래 내역 조회 API
+     */
+    @GetMapping("/find/{receiptId}")
+    public ResponseEntity<ReceiptInfoResponse> findReceiptById(
+            @Login SignInfoRequest signInfoRequest,
+            @PathVariable UUID receiptId
+    ){
+        ReceiptInfoResponse receiptInfoResponse = receiptService.getReceiptById(signInfoRequest,receiptId);
+        return ResponseEntity.ok(receiptInfoResponse);
+    }
 }
