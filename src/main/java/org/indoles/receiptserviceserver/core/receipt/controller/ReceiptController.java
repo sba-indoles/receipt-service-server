@@ -10,6 +10,7 @@ import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Roles
 import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Seller;
 import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.BuyerReceiptSearchConditionRequest;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.CreateReceiptRequest;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSearchConditionRequest;
 import org.indoles.receiptserviceserver.core.receipt.dto.response.BuyerReceiptSimpleInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.dto.response.ReceiptInfoResponse;
@@ -89,32 +90,25 @@ public class ReceiptController {
         return ResponseEntity.ok(receiptInfoResponse);
     }
 
-//    // 거래 내역 목록 조회 API
-//    @GetMapping("/transactions/{userId}")
-//    public ResponseEntity<List<TransactionInfoResponse>> getTransactionsByUserId(
-//            @PathVariable("userId") Long userId,
-//            @RequestParam("offset") int offset,
-//            @RequestParam("size") int size) {
-//        List<TransactionInfoResponse> transactions = receiptService.getTransactionsByUserId(userId, offset, size);
-//        return ResponseEntity.ok(transactions);
-//    }
+    /**
+     * 경매 입찰 시 거래 내역 생성 API
+     */
+
+    @PostMapping("create")
+    public ResponseEntity<Void> createReceipt(
+            @Login SignInfoRequest signInfoRequest,
+            @RequestBody CreateReceiptRequest request
+    ){
+        receiptService.createReceipt(signInfoRequest, request);
+        return ResponseEntity.ok().build();
+    }
+
+
 //
 //    // 거래 상세 조회 API
 //    @GetMapping("/transactions/{receiptId}")
 //    public ResponseEntity<ReceiptInfoResponse> getReceiptById(@PathVariable("receiptId") UUID receiptId) {
 //        ReceiptInfoResponse receiptInfo = receiptService.getReceiptById(receiptId);
 //        return ResponseEntity.ok(receiptInfo);
-//    }
-//
-//    /**
-//     * 거래 내역 생성 API
-//     *
-//     * @param request
-//     * @return
-//     */
-//    @PostMapping("/transactions")
-//    public ResponseEntity<Void> createTransaction(@RequestBody TransactionRequest request) {
-//        receiptService.createTransaction(request); // 거래 내역 저장 로직
-//        return ResponseEntity.ok().build();
 //    }
 }
