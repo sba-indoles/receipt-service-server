@@ -114,4 +114,13 @@ public class ReceiptController {
         ReceiptInfoResponse receiptInfoResponse = receiptService.getReceiptById(signInfoRequest,receiptId);
         return ResponseEntity.ok(receiptInfoResponse);
     }
+
+    /**
+     * 경매 환불 시 업데이트 API
+     */
+    @PutMapping("/refund/{receiptId}")
+    public ResponseEntity<Void> processRefund(@PathVariable UUID receiptId) {
+        receiptService.processRefund(receiptId);
+        return ResponseEntity.ok().build();
+    }
 }
