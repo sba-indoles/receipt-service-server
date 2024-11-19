@@ -3,6 +3,7 @@ package org.indoles.receiptserviceserver.core.receipt.service;
 
 import lombok.RequiredArgsConstructor;
 import org.indoles.receiptserviceserver.core.receipt.domain.Receipt;
+import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.BuyerReceiptSearchConditionRequest;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.CreateReceiptRequest;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSearchConditionRequest;
@@ -98,7 +99,7 @@ public class ReceiptService {
             SignInfoRequest signInfoRequest,
             CreateReceiptRequest request
     ) {
-        vertifyCreateReceiptRole(signInfoRequest,request);
+        vertifyCreateReceiptRole(signInfoRequest, request);
 
         Receipt receipt = new Receipt(
                 request.receiptId(),
@@ -120,5 +121,50 @@ public class ReceiptService {
         if (request.buyerId() != signInfoRequest.id()) {
             throw new AuthorizationException("거래 내역 생성 시, 구매자만 생성할 수 있습니다.", ErrorCode.R003);
         }
+    }
+
+    /**
+     * 거래 내역 환불 조회 서비스(구매자 전용)
+     *
+     * @param signInfoRequest
+     * @param receiptId
+     * @return
+     */
+
+    public ReceiptInfoResponse getReceiptById(SignInfoRequest signInfoRequest, UUID receiptId) {
+        verifyHasBuyerRole(signInfoRequest);
+
+        Receipt receipt = findRefundTargetReceiptForUpdate(receiptId);
+        verifySameBuyer(signInfoRequest, receipt.getBuyerId());
+
+        return ReceiptInfoResponse.builder()
+                .receiptId(receipt.getId())
+                .productName(receipt.getProductName())
+                .price(receipt.getPrice())
+                .quantity(receipt.getQuantity())
+                .receiptStatus(receipt.getReceiptStatus())
+                .auctionId(receipt.getAuctionId())
+                .sellerId(receipt.getSellerId())
+                .buyerId(receipt.getBuyerId())
+                .createdAt(receipt.getCreatedAt())
+                .updatedAt(receipt.getUpdatedAt())
+                .build();
+    }
+
+    private void verifyHasBuyerRole(SignInfoRequest buyerInfo) {
+        if (!buyerInfo.isType(Role.BUYER)) {
+            throw new AuthorizationException("구매자만 환불을 할 수 있습니다.", ErrorCode.P000);
+        }
+    }
+
+    private void verifySameBuyer(SignInfoRequest buyerInfo, long receiptBuyerId) {
+        if (buyerInfo.id() != receiptBuyerId) {
+            throw new AuthorizationException("환불할 입찰 내역의 구매자만 환불을 할 수 있습니다.", ErrorCode.P004);
+        }
+    }
+
+    private Receipt findRefundTargetReceiptForUpdate(UUID receiptId) {
+        return receiptCoreRepository.findByIdForUpdate(receiptId).orElseThrow(
+                () -> new NotFoundException("환불할 입찰 내역을 찾을 수 없습니다. 내역 id=" + receiptId, ErrorCode.P002));
     }
 }
