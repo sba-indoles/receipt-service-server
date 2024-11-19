@@ -167,4 +167,10 @@ public class ReceiptService {
         return receiptCoreRepository.findByIdForUpdate(receiptId).orElseThrow(
                 () -> new NotFoundException("환불할 입찰 내역을 찾을 수 없습니다. 내역 id=" + receiptId, ErrorCode.P002));
     }
+
+    public void processRefund(UUID receiptId) {
+        Receipt receipt = findRefundTargetReceiptForUpdate(receiptId);
+        receipt.markAsRefund();
+        receiptCoreRepository.save(receipt);
+    }
 }
