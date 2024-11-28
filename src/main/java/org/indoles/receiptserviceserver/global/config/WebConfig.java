@@ -1,6 +1,5 @@
 package org.indoles.receiptserviceserver.global.config;
 
-import org.indoles.receiptserviceserver.global.util.JwtAuthenticationInterceptor;
 import org.indoles.receiptserviceserver.global.util.LoginArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
