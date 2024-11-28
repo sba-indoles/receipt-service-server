@@ -1,4 +1,4 @@
-package org.indoles.receiptserviceserver.global.util;
+package org.indoles.receiptserviceserver.global.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,6 +9,8 @@ import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
 import org.indoles.receiptserviceserver.core.receipt.dto.request.SignInfoRequest;
 import org.indoles.receiptserviceserver.global.exception.AuthorizationException;
 import org.indoles.receiptserviceserver.global.exception.ErrorCode;
+import org.indoles.receiptserviceserver.global.util.AuthenticationContext;
+import org.indoles.receiptserviceserver.global.util.JwtTokenProvider;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.method.HandlerMethod;
@@ -24,6 +26,12 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        if (request.getRequestURI().equals("/receipts/create") ||
+                request.getRequestURI().startsWith("/receipts/find/") ||
+                request.getRequestURI().startsWith("/receipts/refund/")) {
+            return true;
+        }
 
         if (handler instanceof ResourceHttpRequestHandler || CorsUtils.isPreFlightRequest(request)) {
             return true;

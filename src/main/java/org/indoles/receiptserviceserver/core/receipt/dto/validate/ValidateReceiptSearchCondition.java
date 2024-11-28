@@ -29,19 +29,19 @@ public class ValidateReceiptSearchCondition {
 
     public static void validateAuctionId(long auctionId) {
         if (auctionId <= 0) {
-            throw new BadRequestException("경매 ID를 찾을 수 없습니다.", ErrorCode.A032);
+            throw new BadRequestException("경매 ID를 찾을 수 없습니다.", ErrorCode.A031);
         }
     }
 
     public static void validateBuyerId(long buyerId) {
         if (buyerId <= 0) {
-            throw new BadRequestException("구매자 ID를 찾을 수 없습니다.", ErrorCode.A033);
+            throw new BadRequestException("구매자 ID를 찾을 수 없습니다.", ErrorCode.A032);
         }
     }
 
     public static void validateSellerId(long sellerId) {
         if (sellerId <= 0) {
-            throw new BadRequestException("판매자 ID를 찾을 수 없습니다.", ErrorCode.A034);
+            throw new BadRequestException("판매자 ID를 찾을 수 없습니다.", ErrorCode.A033);
         }
     }
 

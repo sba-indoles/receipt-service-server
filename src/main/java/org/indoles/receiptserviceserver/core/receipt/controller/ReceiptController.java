@@ -9,13 +9,10 @@ import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Login
 import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Roles;
 import org.indoles.receiptserviceserver.core.receipt.controller.interfaces.Seller;
 import org.indoles.receiptserviceserver.core.receipt.domain.enums.Role;
-import org.indoles.receiptserviceserver.core.receipt.dto.request.BuyerReceiptSearchConditionRequest;
-import org.indoles.receiptserviceserver.core.receipt.dto.request.CreateReceiptRequest;
-import org.indoles.receiptserviceserver.core.receipt.dto.request.SellerReceiptSearchConditionRequest;
+import org.indoles.receiptserviceserver.core.receipt.dto.request.*;
 import org.indoles.receiptserviceserver.core.receipt.dto.response.BuyerReceiptSimpleInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.dto.response.ReceiptInfoResponse;
 import org.indoles.receiptserviceserver.core.receipt.dto.response.SellerReceiptSimpleInfoResponse;
-import org.indoles.receiptserviceserver.core.receipt.dto.request.SignInfoRequest;
 import org.indoles.receiptserviceserver.core.receipt.service.ReceiptService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -96,10 +93,10 @@ public class ReceiptController {
 
     @PostMapping("create")
     public ResponseEntity<Void> createReceipt(
-            @Login SignInfoRequest signInfoRequest,
-            @RequestBody CreateReceiptRequest request
-    ){
-        receiptService.createReceipt(signInfoRequest, request);
+            @RequestBody CreateReceiptRequestWrapper createReceiptRequestWrapper
+
+    ) {
+        receiptService.createReceipt(createReceiptRequestWrapper.signInfoRequest(), createReceiptRequestWrapper.createReceiptRequest());
         return ResponseEntity.ok().build();
     }
 
@@ -108,10 +105,9 @@ public class ReceiptController {
      */
     @GetMapping("/find/{receiptId}")
     public ResponseEntity<ReceiptInfoResponse> findReceiptById(
-            @Login SignInfoRequest signInfoRequest,
             @PathVariable UUID receiptId
-    ){
-        ReceiptInfoResponse receiptInfoResponse = receiptService.getReceiptById(signInfoRequest,receiptId);
+    ) {
+        ReceiptInfoResponse receiptInfoResponse = receiptService.getReceiptById(receiptId);
         return ResponseEntity.ok(receiptInfoResponse);
     }
 
@@ -119,8 +115,10 @@ public class ReceiptController {
      * 경매 환불 시 업데이트 API
      */
     @PutMapping("/refund/{receiptId}")
-    public ResponseEntity<Void> processRefund(@PathVariable UUID receiptId) {
-        receiptService.processRefund(receiptId);
+    public ResponseEntity<Void> processRefund(
+            @RequestBody SignInfoRequest signInfoRequest,
+            @PathVariable UUID receiptId) {
+        receiptService.processRefund(receiptId, signInfoRequest);
         return ResponseEntity.ok().build();
     }
 }

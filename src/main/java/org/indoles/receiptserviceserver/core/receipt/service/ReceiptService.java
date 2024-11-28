@@ -126,16 +126,13 @@ public class ReceiptService {
     /**
      * 거래 내역 환불 조회 서비스(구매자 전용)
      *
-     * @param signInfoRequest
      * @param receiptId
      * @return
      */
 
-    public ReceiptInfoResponse getReceiptById(SignInfoRequest signInfoRequest, UUID receiptId) {
-        verifyHasBuyerRole(signInfoRequest);
+    public ReceiptInfoResponse getReceiptById(UUID receiptId) {
 
         Receipt receipt = findRefundTargetReceiptForUpdate(receiptId);
-        verifySameBuyer(signInfoRequest, receipt.getBuyerId());
 
         return ReceiptInfoResponse.builder()
                 .receiptId(receipt.getId())
@@ -168,8 +165,10 @@ public class ReceiptService {
                 () -> new NotFoundException("환불할 입찰 내역을 찾을 수 없습니다. 내역 id=" + receiptId, ErrorCode.P002));
     }
 
-    public void processRefund(UUID receiptId) {
+    public void processRefund(UUID receiptId, SignInfoRequest signInfoRequest) {
         Receipt receipt = findRefundTargetReceiptForUpdate(receiptId);
+        verifyHasBuyerRole(signInfoRequest);
+        verifySameBuyer(signInfoRequest, receipt.getBuyerId());
         receipt.markAsRefund();
         receiptCoreRepository.save(receipt);
     }
