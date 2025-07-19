@@ -1,124 +1,144 @@
-from locust import HttpUser, task, between, events
+from locust import HttpUser, SequentialTaskSet, task, between, events
+from datetime import datetime, timedelta
 import random
 import string
+import time
 
-# 각 서버의 호스트 설정
-MEMBER_HOST = "http://localhost:7070"
-RECEIPT_HOST = "http://localhost:9090"
+MEMBER_HOST = "http://localhost:7070"      # 회원 서버
+AUCTION_HOST = "http://localhost:8080"     # 경매 서버
+RECEIPT_HOST = "http://localhost:9090"     # 거래내역 서버
 
 def generate_user_id():
-    """고유한 사용자 ID를 생성하는 함수"""
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+    random_part = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+    timestamp_part = str(int(time.time() * 1000))
+    return f"{random_part}_{timestamp_part}"
 
 def generate_password():
-    """유효한 비밀번호를 생성하는 함수 (영문자와 숫자 포함)"""
-    lowercase = random.choice(string.ascii_lowercase)
-    uppercase = random.choice(string.ascii_uppercase)
-    digit = random.choice(string.digits)
-    remaining_length = 12 - 3
-    remaining_characters = ''.join(random.choices(string.ascii_letters + string.digits, k=remaining_length))
-    password = lowercase + uppercase + digit + remaining_characters
-    return ''.join(random.sample(password, len(password)))
+    l = random.choice(string.ascii_lowercase)
+    u = random.choice(string.ascii_uppercase)
+    d = random.choice(string.digits)
+    rest = ''.join(random.choices(string.ascii_letters + string.digits, k=9))
+    return ''.join(random.sample(l + u + d + rest, 12))
 
-class UserBehavior(HttpUser):
-    wait_time = between(1, 3)
-
+class ReceiptE2EFlow(SequentialTaskSet):
     def on_start(self):
-        """회원가입 후 로그인 및 거래 내역 조회를 위한 초기 설정"""
-        self.user_id = generate_user_id()
-        self.password = generate_password()
-        self.access_token = None
-        self.signup_successful = False
+        # 1. SELLER 생성 및 경매 등록 -------------------
+        self.seller_id = generate_user_id()
+        self.seller_pw = generate_password()
+        self.seller_token = None
+        signup_seller = {"signUpId": self.seller_id, "password": self.seller_pw, "userRole": "SELLER"}
+        resp1 = self.client.post(f"{MEMBER_HOST}/members/signup", json=signup_seller, headers={"Content-Type": "application/json"}, catch_response=True)
+        if resp1.status_code == 200:
+            signin = {"signInId": self.seller_id, "password": self.seller_pw}
+            resp2 = self.client.post(f"{MEMBER_HOST}/members/signin", json=signin, headers={"Content-Type":"application/json"}, catch_response=True)
+            if resp2.status_code == 200:
+                self.seller_token = resp2.json().get("accessToken")
 
-    @task(1)  # 회원가입 API 호출
-    def signup(self):
-        signup_data = {
-            "signUpId": self.user_id,
-            "password": self.password,
-            "userRole": "BUYER",
-        }
-        with self.client.post(f"{MEMBER_HOST}/members/signup", json=signup_data, headers={"Content-Type": "application/json"}, catch_response=True) as response:
-            if response.status_code == 400:
-                print(f"Signup failed for {self.user_id}: {response.text}")
-                self.user_id = generate_user_id()  # 새로운 ID 생성
-                self.signup()  # 재시도
-            elif response.status_code == 200:
-                print(f"Signup successful for {self.user_id}: {response.text}")
-                self.signup_successful = True
-                self.signin()  # 회원가입 후 즉시 로그인 시도
+        self.auction_id = None
+        if self.seller_token:
+            start_time = datetime.now() + timedelta(minutes=1)
+            finish_time = start_time + timedelta(minutes=60)
+            auction_data = {
+                "productName": "Sample Product",
+                "originPrice": 10000,
+                "stock": 50,
+                "maximumPurchaseLimitCount": 5,
+                "pricePolicy": {"type": "CONSTANT", "variationWidth": 10},
+                "variationDuration": "PT1M",
+                "requestTime": datetime.now().isoformat(),
+                "startedAt": start_time.isoformat(),
+                "finishedAt": finish_time.isoformat(),
+                "isShowStock": True
+            }
+            seller_headers = {
+                "Authorization": f"Bearer {self.seller_token}",
+                "Content-Type": "application/json"
+            }
+            res = self.client.post(f"{AUCTION_HOST}/auctions", json=auction_data, headers=seller_headers, catch_response=True)
+            if res.status_code == 200:
+                self.auction_id = res.json().get("id")
 
-    @task(2)  # 로그인 API 호출
-    def signin(self):
-        if not self.signup_successful:
-            return
+        # 2. BUYER(구매자) 생성 및 경매 입찰 --------------
+        self.buyer_id = generate_user_id()
+        self.buyer_pw = generate_password()
+        self.buyer_token = None
+        signup_buyer = {"signUpId": self.buyer_id, "password": self.buyer_pw, "userRole": "BUYER"}
+        resp3 = self.client.post(f"{MEMBER_HOST}/members/signup", json=signup_buyer, headers={"Content-Type": "application/json"}, catch_response=True)
+        if resp3.status_code == 200:
+            signin = {"signInId": self.buyer_id, "password": self.buyer_pw}
+            resp4 = self.client.post(f"{MEMBER_HOST}/members/signin", json=signin, headers={"Content-Type":"application/json"}, catch_response=True)
+            if resp4.status_code == 200:
+                self.buyer_token = resp4.json().get("accessToken")
+        
+        self.receipt_id = None
+        if self.buyer_token and self.auction_id:
+            bid_data = {
+                "price": 10000,
+                "quantity": 1
+            }
+            buyer_headers = {
+                "Authorization": f"Bearer {self.buyer_token}",
+                "Content-Type": "application/json"
+            }
+            res = self.client.post(f"{AUCTION_HOST}/auctions/{self.auction_id}/purchase", json=bid_data, headers=buyer_headers, catch_response=True)
+            if res.status_code == 200:
+                self.receipt_id = res.json().get("receiptId")
 
-        signin_data = {
-            "signInId": self.user_id,
-            "password": self.password
-        }
-        with self.client.post(f"{MEMBER_HOST}/members/signin", json=signin_data, headers={"Content-Type": "application/json"}, catch_response=True) as response:
-            if response.status_code == 200:
-                self.access_token = response.json().get("accessToken")
-                print(f"Signin successful for {self.user_id}: {response.text}")
-                self.get_receipts()  # 로그인 후 거래 내역 조회
-            else:
-                print(f"Signin failed for {self.user_id}: {response.text}")
-
-    @task(3)  # 거래 내역 조회 API 호출
+    @task(1)
     def get_receipts(self):
-        if not self.access_token:
-            print("Access token is missing. Cannot retrieve receipts.")
+        "거래 내역 목록(Receipt List) 조회"
+        if not self.buyer_token:
+            print("Buyer token missing. Cannot query receipts.")
             return
-
-        headers = {"Authorization": f"Bearer {self.access_token}"}
-        # offset과 size 파라미터 추가
+        headers = {"Authorization": f"Bearer {self.buyer_token}"}
         params = {"offset": 0, "size": 10}
         with self.client.get(f"{RECEIPT_HOST}/receipts/buyer", headers=headers, params=params, catch_response=True) as response:
             if response.status_code == 200:
                 print(f"Receipts retrieved successfully: {response.text}")
             else:
-                print(f"Failed to retrieve receipts: {response.status_code}, Response: {response.text}")
+                print(f"Failed to retrieve receipts: {response.status_code}, {response.text}")
 
-    @task(4)  # 거래 내역 상세 조회 API 호출
+    @task(2)
     def get_receipt_detail(self):
-        receipt_id = "44b0d7af-f789-483a-80dc-51f8efca31e6"
-        if not self.access_token:
-            print("Access token is missing. Cannot retrieve receipt details.")
+        "입찰로 생성된 실제 ReceiptID의 상세 조회"
+        if not self.buyer_token or not self.receipt_id:
+            print("Token or receiptID missing. Cannot query details.")
             return
-
-        headers = {"Authorization": f"Bearer {self.access_token}"}
-        with self.client.get(f"{RECEIPT_HOST}/receipts/{receipt_id}", headers=headers, catch_response=True) as response:
+        headers = {"Authorization": f"Bearer {self.buyer_token}"}
+        with self.client.get(f"{RECEIPT_HOST}/receipts/{self.receipt_id}", headers=headers, catch_response=True) as response:
             if response.status_code == 200:
-                print(f"Receipt details retrieved successfully: {response.text}")
+                print(f"Receipt detail retrieved successfully: {response.text}")
             else:
-                print(f"Failed to retrieve receipt details: {response.status_code}, Response: {response.text}")
+                print(f"Failed to retrieve receipt detail: {response.status_code}, {response.text}")
 
-    @task(5)  # 거래 내역 환불 API 호출
+    @task(3)
     def process_refund(self):
-        receipt_id = "44b0d7af-f789-483a-80dc-51f8efca31e6"
-        if not self.access_token:
-            print("Access token is missing. Cannot process refund.")
+        "실제 입찰 ReceiptID를 대상으로 환불"
+        if not self.buyer_token or not self.receipt_id:
+            print("Token or receiptID missing. Cannot refund.")
             return
-
         headers = {
-            "Authorization": f"Bearer {self.access_token}",
+            "Authorization": f"Bearer {self.buyer_token}",
             "Content-Type": "application/json"
         }
         refund_data = {
             "signInfoRequest": {
-                "id": self.user_id,
+                "id": self.buyer_id,
                 "Role": "BUYER"
             }
         }
-        with self.client.put(f"{RECEIPT_HOST}/receipts/refund/{receipt_id}", json=refund_data, headers=headers, catch_response=True) as response:
+        with self.client.put(f"{RECEIPT_HOST}/receipts/refund/{self.receipt_id}", json=refund_data, headers=headers, catch_response=True) as response:
             if response.status_code == 200:
-                print(f"Refund processed successfully for receipt ID {receipt_id}: {response.text}")
+                print(f"Refund processed successfully for receipt ID {self.receipt_id}: {response.text}")
             else:
-                print(f"Failed to process refund: {response.status_code}, Response: {response.text}")
+                print(f"Failed to process refund: {response.status_code}, {response.text}")
+
+class WebsiteUser(HttpUser):
+    host = MEMBER_HOST
+    tasks = [ReceiptE2EFlow]
+    wait_time = between(1, 3)
 
 @events.request.add_listener
 def request_handler(request_type, name, response_time, response_length, response, exception, **kwargs):
     if exception:
         print(f"Request to {name} failed with exception: {exception}")
-    else:
-        print(f"Successfully made a request to: {name} with response time: {response_time}ms")
